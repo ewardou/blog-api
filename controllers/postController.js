@@ -19,3 +19,16 @@ exports.getOnePost = asyncHandler(async (req, res) => {
     const post = await Posts.findById(req.params.postID);
     res.json(post);
 });
+
+exports.deletePost = asyncHandler(async (req, res) => {
+    const deletedPost = await Posts.findByIdAndRemove(req.params.postID);
+    res.json(deletedPost);
+});
+
+exports.updatePost = asyncHandler(async (req, res) => {
+    const post = await Posts.findById(req.params.postID);
+    post.title = req.body.title;
+    post.content = req.body.content;
+    post.save();
+    res.json(post);
+});
