@@ -1,7 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const postRouter = require('./routes/postRoute');
 require('dotenv').config();
+require('./passport');
+
+const auth = require('./routes/authRoute');
 
 mongoose.connect(process.env.DB_URL, {
     useUnifiedTopology: true,
@@ -14,9 +18,11 @@ mongoose.connection.on(
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.use('/auth', auth);
 app.use('/posts', postRouter);
 
 app.listen(8000, () => {
