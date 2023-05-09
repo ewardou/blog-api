@@ -2,7 +2,7 @@ const asyncHandler = require('express-async-handler');
 const Comments = require('../models/comments');
 
 exports.getComments = asyncHandler(async (req, res) => {
-    const allComments = await Comments.find();
+    const allComments = await Comments.find({ post: req.params.postID });
     res.json(allComments);
 });
 
