@@ -5,7 +5,11 @@ const commentsController = require('../controllers/commentsController');
 
 const router = express.Router();
 
-router.get('/', postController.getPosts);
+router.get(
+    '/',
+    passport.authenticate('jwt', { session: false }),
+    postController.getPosts
+);
 router.post(
     '/',
     passport.authenticate('jwt', { session: false }),
