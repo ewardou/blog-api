@@ -6,6 +6,11 @@ exports.getPosts = asyncHandler(async (req, res) => {
     res.json(allPosts);
 });
 
+exports.getPublicPosts = asyncHandler(async (req, res) => {
+    const publicPosts = await Posts.find({ isPublic: true });
+    res.json(publicPosts);
+});
+
 exports.createPost = asyncHandler(async (req, res) => {
     const newPost = new Posts({
         title: req.body.title,
@@ -27,8 +32,9 @@ exports.deletePost = asyncHandler(async (req, res) => {
 
 exports.updatePost = asyncHandler(async (req, res) => {
     const post = await Posts.findById(req.params.postID);
-    post.title = req.body.title;
-    post.content = req.body.content;
-    post.save();
+    Object.keys(req.body).forEach((item) => {
+        post[item] = req.body[item];
+    });
+    await post.save();
     res.json(post);
 });

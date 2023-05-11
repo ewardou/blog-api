@@ -11,6 +11,7 @@ router.post(
     passport.authenticate('jwt', { session: false }),
     postController.createPost
 );
+router.get('/public', postController.getPublicPosts);
 router.get('/:postID', postController.getOnePost);
 router.put(
     '/:postID',
